@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.AppHost", "IntelligentCityApp.AppHost\IntelligentCityApp.AppHost.csproj", "{439A21DF-C8E2-49A4-A958-C56613F4D7F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.ServiceDefaults", "IntelligentCityApp.ServiceDefaults\IntelligentCityApp.ServiceDefaults.csproj", "{47B5355C-EECA-0A9D-BB5F-7F46991DD861}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{439A21DF-C8E2-49A4-A958-C56613F4D7F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{439A21DF-C8E2-49A4-A958-C56613F4D7F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{439A21DF-C8E2-49A4-A958-C56613F4D7F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{439A21DF-C8E2-49A4-A958-C56613F4D7F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B5355C-EECA-0A9D-BB5F-7F46991DD861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B5355C-EECA-0A9D-BB5F-7F46991DD861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B5355C-EECA-0A9D-BB5F-7F46991DD861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B5355C-EECA-0A9D-BB5F-7F46991DD861}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0822CA69-5624-4984-8848-BC3F63A686EE}
+	EndGlobalSection
+EndGlobal
