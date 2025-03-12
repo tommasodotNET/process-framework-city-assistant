@@ -1,0 +1,6 @@
+@IntelligentCityApp.Transportation.Underground.API_HostAddress = http://localhost:5180
+
+GET {{IntelligentCityApp.Transportation.Underground.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,10 +1,50 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.AppHost", "IntelligentCityApp.AppHost\IntelligentCityApp.AppHost.csproj", "{439A21DF-C8E2-49A4-A958-C56613F4D7F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.ServiceDefaults", "IntelligentCityApp.ServiceDefaults\IntelligentCityApp.ServiceDefaults.csproj", "{47B5355C-EECA-0A9D-BB5F-7F46991DD861}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transportation", "Transportation", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Transportation.Agent", "IntelligentCityApp.Transportation.Agent\IntelligentCityApp.Transportation.Agent.csproj", "{155010FD-DC9E-5D29-B43C-0C74F468A41E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Transportation.Underground.API", "IntelligentCityApp.Transportation.Underground.API\IntelligentCityApp.Transportation.Underground.API.csproj", "{4D13B5A7-F191-5EE3-763D-2177C3489760}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Events", "Events", "{859BA8E5-7B8E-431F-BB53-CABC6EDAAB12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Events.Agent", "IntelligentCityApp.Events.Agent\IntelligentCityApp.Events.Agent.csproj", "{53CC5C21-6523-F5A1-6DFC-B3DA17A00BD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Events.Cinemas.API", "IntelligentCityApp.Events.Cinemas.API\IntelligentCityApp.Events.Cinemas.API.csproj", "{D232149B-663F-6A2A-0C09-C7BDBC3D250C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Events.Municipalities.API", "IntelligentCityApp.Events.Municipalities.API\IntelligentCityApp.Events.Municipalities.API.csproj", "{00E6B536-E981-52D7-6938-070228829EF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Events.Festival.API", "IntelligentCityApp.Events.Festival.API\IntelligentCityApp.Events.Festival.API.csproj", "{2D3ACC30-FE3F-E22D-610B-D92A7EA67F0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Events.Tickets.API", "IntelligentCityApp.Events.Tickets.API\IntelligentCityApp.Events.Tickets.API.csproj", "{D5F7C22D-483B-760D-489D-CC4C4817899A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublicUtilities", "PublicUtilities", "{FBE70794-22EA-4596-BACF-3DB29DEBBDF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.PublicUtilities.Agent", "IntelligentCityApp.PublicUtilities.Agent\IntelligentCityApp.PublicUtilities.Agent.csproj", "{D77A33FA-4C8A-0E10-7E71-118E23B7D35C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.PublicUtilities.API", "IntelligentCityApp.PublicUtilities.API\IntelligentCityApp.PublicUtilities.API.csproj", "{37625C06-4CBA-7F9E-C5FF-EB3E14F77DA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fiscals", "Fiscals", "{6A262F50-2E04-40AB-8FEC-A0DA32497702}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Fiscals.Agent", "IntelligentCityApp.Fiscals.Agent\IntelligentCityApp.Fiscals.Agent.csproj", "{22AF867D-A817-E1F0-448D-C22935609F18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Fiscals.API", "IntelligentCityApp.Fiscals.API\IntelligentCityApp.Fiscals.API.csproj", "{DA9F6CF1-C690-C9FB-5852-E8E1C8B774B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accomodation", "Accomodation", "{660B175D-24EA-40C4-992C-7FE3E9CF9C21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Accomodation.Agent", "IntelligentCityApp.Accomodation.Agent\IntelligentCityApp.Accomodation.Agent.csproj", "{9B4D342C-2893-D312-D614-EAFFDBEB6F1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Accomodation.Hotels.API", "IntelligentCityApp.Accomodation.Hotels.API\IntelligentCityApp.Accomodation.Hotels.API.csproj", "{726ECF06-9F18-F1F7-6512-AEF34B209CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Accomodation.Rental.API", "IntelligentCityApp.Accomodation.Rental.API\IntelligentCityApp.Accomodation.Rental.API.csproj", "{6F71DF27-8B8C-62A5-BC20-CE3B556DB314}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Accomodation.Parking.API", "IntelligentCityApp.Accomodation.Parking.API\IntelligentCityApp.Accomodation.Parking.API.csproj", "{5CCDD124-C021-2B2B-E4D4-768BC7FFCFB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +60,86 @@ Global
 		{47B5355C-EECA-0A9D-BB5F-7F46991DD861}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47B5355C-EECA-0A9D-BB5F-7F46991DD861}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47B5355C-EECA-0A9D-BB5F-7F46991DD861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{155010FD-DC9E-5D29-B43C-0C74F468A41E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{155010FD-DC9E-5D29-B43C-0C74F468A41E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{155010FD-DC9E-5D29-B43C-0C74F468A41E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{155010FD-DC9E-5D29-B43C-0C74F468A41E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D13B5A7-F191-5EE3-763D-2177C3489760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D13B5A7-F191-5EE3-763D-2177C3489760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D13B5A7-F191-5EE3-763D-2177C3489760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D13B5A7-F191-5EE3-763D-2177C3489760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53CC5C21-6523-F5A1-6DFC-B3DA17A00BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53CC5C21-6523-F5A1-6DFC-B3DA17A00BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53CC5C21-6523-F5A1-6DFC-B3DA17A00BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53CC5C21-6523-F5A1-6DFC-B3DA17A00BD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D232149B-663F-6A2A-0C09-C7BDBC3D250C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D232149B-663F-6A2A-0C09-C7BDBC3D250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D232149B-663F-6A2A-0C09-C7BDBC3D250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D232149B-663F-6A2A-0C09-C7BDBC3D250C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00E6B536-E981-52D7-6938-070228829EF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E6B536-E981-52D7-6938-070228829EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E6B536-E981-52D7-6938-070228829EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E6B536-E981-52D7-6938-070228829EF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D3ACC30-FE3F-E22D-610B-D92A7EA67F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D3ACC30-FE3F-E22D-610B-D92A7EA67F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D3ACC30-FE3F-E22D-610B-D92A7EA67F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D3ACC30-FE3F-E22D-610B-D92A7EA67F0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F7C22D-483B-760D-489D-CC4C4817899A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F7C22D-483B-760D-489D-CC4C4817899A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F7C22D-483B-760D-489D-CC4C4817899A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F7C22D-483B-760D-489D-CC4C4817899A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77A33FA-4C8A-0E10-7E71-118E23B7D35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77A33FA-4C8A-0E10-7E71-118E23B7D35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77A33FA-4C8A-0E10-7E71-118E23B7D35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77A33FA-4C8A-0E10-7E71-118E23B7D35C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37625C06-4CBA-7F9E-C5FF-EB3E14F77DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37625C06-4CBA-7F9E-C5FF-EB3E14F77DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37625C06-4CBA-7F9E-C5FF-EB3E14F77DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37625C06-4CBA-7F9E-C5FF-EB3E14F77DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22AF867D-A817-E1F0-448D-C22935609F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22AF867D-A817-E1F0-448D-C22935609F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22AF867D-A817-E1F0-448D-C22935609F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22AF867D-A817-E1F0-448D-C22935609F18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA9F6CF1-C690-C9FB-5852-E8E1C8B774B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9F6CF1-C690-C9FB-5852-E8E1C8B774B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9F6CF1-C690-C9FB-5852-E8E1C8B774B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9F6CF1-C690-C9FB-5852-E8E1C8B774B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B4D342C-2893-D312-D614-EAFFDBEB6F1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4D342C-2893-D312-D614-EAFFDBEB6F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B4D342C-2893-D312-D614-EAFFDBEB6F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B4D342C-2893-D312-D614-EAFFDBEB6F1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{726ECF06-9F18-F1F7-6512-AEF34B209CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{726ECF06-9F18-F1F7-6512-AEF34B209CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{726ECF06-9F18-F1F7-6512-AEF34B209CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{726ECF06-9F18-F1F7-6512-AEF34B209CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F71DF27-8B8C-62A5-BC20-CE3B556DB314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F71DF27-8B8C-62A5-BC20-CE3B556DB314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F71DF27-8B8C-62A5-BC20-CE3B556DB314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F71DF27-8B8C-62A5-BC20-CE3B556DB314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CCDD124-C021-2B2B-E4D4-768BC7FFCFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CCDD124-C021-2B2B-E4D4-768BC7FFCFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CCDD124-C021-2B2B-E4D4-768BC7FFCFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CCDD124-C021-2B2B-E4D4-768BC7FFCFB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{155010FD-DC9E-5D29-B43C-0C74F468A41E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4D13B5A7-F191-5EE3-763D-2177C3489760} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{53CC5C21-6523-F5A1-6DFC-B3DA17A00BD7} = {859BA8E5-7B8E-431F-BB53-CABC6EDAAB12}
+		{D232149B-663F-6A2A-0C09-C7BDBC3D250C} = {859BA8E5-7B8E-431F-BB53-CABC6EDAAB12}
+		{00E6B536-E981-52D7-6938-070228829EF0} = {859BA8E5-7B8E-431F-BB53-CABC6EDAAB12}
+		{2D3ACC30-FE3F-E22D-610B-D92A7EA67F0B} = {859BA8E5-7B8E-431F-BB53-CABC6EDAAB12}
+		{D5F7C22D-483B-760D-489D-CC4C4817899A} = {859BA8E5-7B8E-431F-BB53-CABC6EDAAB12}
+		{D77A33FA-4C8A-0E10-7E71-118E23B7D35C} = {FBE70794-22EA-4596-BACF-3DB29DEBBDF3}
+		{37625C06-4CBA-7F9E-C5FF-EB3E14F77DA1} = {FBE70794-22EA-4596-BACF-3DB29DEBBDF3}
+		{22AF867D-A817-E1F0-448D-C22935609F18} = {6A262F50-2E04-40AB-8FEC-A0DA32497702}
+		{DA9F6CF1-C690-C9FB-5852-E8E1C8B774B0} = {6A262F50-2E04-40AB-8FEC-A0DA32497702}
+		{9B4D342C-2893-D312-D614-EAFFDBEB6F1B} = {660B175D-24EA-40C4-992C-7FE3E9CF9C21}
+		{726ECF06-9F18-F1F7-6512-AEF34B209CC4} = {660B175D-24EA-40C4-992C-7FE3E9CF9C21}
+		{6F71DF27-8B8C-62A5-BC20-CE3B556DB314} = {660B175D-24EA-40C4-992C-7FE3E9CF9C21}
+		{5CCDD124-C021-2B2B-E4D4-768BC7FFCFB3} = {660B175D-24EA-40C4-992C-7FE3E9CF9C21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0822CA69-5624-4984-8848-BC3F63A686EE}

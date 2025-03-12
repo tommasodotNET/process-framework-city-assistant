@@ -12,7 +12,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.Azure.Sql" Version="9.1.0" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntelligentCityApp.Accomodation.Agent\IntelligentCityApp.Accomodation.Agent.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Accomodation.Hotels.API\IntelligentCityApp.Accomodation.Hotels.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Accomodation.Parking.API\IntelligentCityApp.Accomodation.Parking.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Accomodation.Rental.API\IntelligentCityApp.Accomodation.Rental.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Events.Agent\IntelligentCityApp.Events.Agent.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Events.Cinemas.API\IntelligentCityApp.Events.Cinemas.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Events.Festival.API\IntelligentCityApp.Events.Festival.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Events.Municipalities.API\IntelligentCityApp.Events.Municipalities.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Events.Tickets.API\IntelligentCityApp.Events.Tickets.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Fiscals.Agent\IntelligentCityApp.Fiscals.Agent.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Fiscals.API\IntelligentCityApp.Fiscals.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.PublicUtilities.Agent\IntelligentCityApp.PublicUtilities.Agent.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.PublicUtilities.API\IntelligentCityApp.PublicUtilities.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Transportation.Agent\IntelligentCityApp.Transportation.Agent.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.Transportation.Underground.API\IntelligentCityApp.Transportation.Underground.API.csproj" />
   </ItemGroup>
 
 </Project>

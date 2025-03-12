@@ -1,0 +1,6 @@
+@IntelligentCityApp.Transportation.Agent_HostAddress = http://localhost:5283
+
+GET {{IntelligentCityApp.Transportation.Agent_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

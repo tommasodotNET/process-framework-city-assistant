@@ -1,0 +1,6 @@
+@IntelligentCityApp.Hotels.API_HostAddress = http://localhost:5057
+
+GET {{IntelligentCityApp.Hotels.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,6 @@
+@IntelligentCityApp.Fiscals.API_HostAddress = http://localhost:5186
+
+GET {{IntelligentCityApp.Fiscals.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

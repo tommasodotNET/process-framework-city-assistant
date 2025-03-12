@@ -1,0 +1,6 @@
+@IntelligentCityApp.PublicUtilities.API_HostAddress = http://localhost:5294
+
+GET {{IntelligentCityApp.PublicUtilities.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
