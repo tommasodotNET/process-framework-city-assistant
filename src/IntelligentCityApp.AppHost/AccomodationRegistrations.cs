@@ -22,15 +22,15 @@ public static class AccomodationRegistrations
             rentalDB = ((IResourceBuilder<SqlServerServerResource>)sqlInstance).AddDatabase("RentalDB");
             parkingDB = ((IResourceBuilder<SqlServerServerResource>)sqlInstance).AddDatabase("ParkingDB");
         }
-        var hotelApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Hotels_API>("intelligentcityapp-hotels-api")
+        var hotelApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Hotels_API>("intelligentcityapp-accomodation-hotels-api")
             .WithReference(hotelsDB)
             .WaitFor(sqlInstance);
 
-        var rentalApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Rental_API>("intelligentcityapp-rental-api")
+        var rentalApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Rental_API>("intelligentcityapp-accomodation-rental-api")
             .WithReference(rentalDB)
             .WaitFor(sqlInstance);
 
-        var parkingApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Parking_API>("intelligentcityapp-parking-api")
+        var parkingApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Parking_API>("intelligentcityapp-accomodation-parking-api")
             .WithReference(parkingDB)
             .WaitFor(sqlInstance);
 
