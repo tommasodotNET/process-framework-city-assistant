@@ -7,12 +7,6 @@ public static class EventRegistrations
 {
     public static IDistributedApplicationBuilder RegisterEvents(this IDistributedApplicationBuilder builder, IResourceBuilder<Resource> sqlInstance)
     {
-        builder.AddProject<Projects.IntelligentCityApp_Events_Agent>("intelligentcityapp-events-agent");
-        builder.AddProject<Projects.IntelligentCityApp_Events_Cinemas_API>("intelligentcityapp-events-cinemas-api");
-        builder.AddProject<Projects.IntelligentCityApp_Events_Municipalities_API>("intelligentcityapp-events-municipalities-api");
-        builder.AddProject<Projects.IntelligentCityApp_Events_Festival_API>("intelligentcityapp-events-festival-api");
-        builder.AddProject<Projects.IntelligentCityApp_Events_Tickets_API>("intelligentcityapp-events-tickets-api");
-
         IResourceBuilder<IResourceWithConnectionString> cinemaDb;
         IResourceBuilder<IResourceWithConnectionString> municipalitiesDb;
         IResourceBuilder<IResourceWithConnectionString> festivalDb;
@@ -32,17 +26,27 @@ public static class EventRegistrations
             ticketsDb = ((IResourceBuilder<SqlServerServerResource>)sqlInstance).AddDatabase("TicketsDB");
         }
 
-        builder.AddProject<Projects.IntelligentCityApp_Events_Cinemas_API>("intelligentcityapp-events-cinemas-api")
-            .WithReference(cinemaDb);
+        var cinemaApi = builder.AddProject<Projects.IntelligentCityApp_Events_Cinemas_API>("intelligentcityapp-events-cinemas-api")
+            .WithReference(cinemaDb)
+            .WaitFor(sqlInstance);
 
-        builder.AddProject<Projects.IntelligentCityApp_Events_Municipalities_API>("intelligentcityapp-events-municipalities-api")
-            .WithReference(municipalitiesDb);
+        var municipalitiesApi = builder.AddProject<Projects.IntelligentCityApp_Events_Municipalities_API>("intelligentcityapp-events-municipalities-api")
+            .WithReference(municipalitiesDb)
+            .WaitFor(sqlInstance);
 
-        builder.AddProject<Projects.IntelligentCityApp_Events_Festival_API>("intelligentcityapp-events-festival-api")
-            .WithReference(festivalDb);
+        var festivalApi = builder.AddProject<Projects.IntelligentCityApp_Events_Festival_API>("intelligentcityapp-events-festival-api")
+            .WithReference(festivalDb)
+            .WaitFor(sqlInstance);
 
-        builder.AddProject<Projects.IntelligentCityApp_Events_Tickets_API>("intelligentcityapp-events-tickets-api")
-            .WithReference(ticketsDb);
+        var ticketApi = builder.AddProject<Projects.IntelligentCityApp_Events_Tickets_API>("intelligentcityapp-events-tickets-api")
+            .WithReference(ticketsDb)
+            .WaitFor(sqlInstance);
+
+        var eventAgent = builder.AddProject<Projects.IntelligentCityApp_Events_Agent>("intelligentcityapp-events-agent")
+            .WaitFor(cinemaApi)
+            .WaitFor(municipalitiesApi)
+            .WaitFor(festivalApi)
+            .WaitFor(ticketApi);
 
         return builder;
     }
