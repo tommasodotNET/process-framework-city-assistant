@@ -5,7 +5,7 @@ namespace IntelligentCityApp.AppHost;
 
 public static class AccomodationRegistrations
 {
-    public static IDistributedApplicationBuilder RegisterAccomodation(this IDistributedApplicationBuilder builder, IResourceBuilder<Resource> sqlInstance)
+    public static IResourceBuilder<ProjectResource>? RegisterAccomodation(this IDistributedApplicationBuilder builder, IResourceBuilder<Resource> sqlInstance)
     {
         IResourceBuilder<IResourceWithConnectionString> hotelsDB;
         IResourceBuilder<IResourceWithConnectionString> rentalDB;
@@ -39,6 +39,6 @@ public static class AccomodationRegistrations
             .WaitFor(rentalApi)
             .WaitFor(parkingApi);
 
-        return builder;
+        return accomodationAgent;
     }
 }

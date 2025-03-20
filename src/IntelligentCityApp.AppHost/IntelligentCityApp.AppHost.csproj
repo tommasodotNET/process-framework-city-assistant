@@ -29,6 +29,7 @@
     <ProjectReference Include="..\IntelligentCityApp.Events.Tickets.API\IntelligentCityApp.Events.Tickets.API.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.Fiscals.Agent\IntelligentCityApp.Fiscals.Agent.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.Fiscals.API\IntelligentCityApp.Fiscals.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.ProcessOrchestration\IntelligentCityApp.ProcessOrchestration.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.PublicUtilities.Agent\IntelligentCityApp.PublicUtilities.Agent.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.PublicUtilities.API\IntelligentCityApp.PublicUtilities.API.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.Transportation.Agent\IntelligentCityApp.Transportation.Agent.csproj" />

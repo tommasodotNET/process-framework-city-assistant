@@ -23,19 +23,11 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", () =>
+app.MapPost("/agents/accomodation", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return Results.Ok("I found two hotels in selected dates: Hotel A and Hotel B. Hotel A has 5 rooms available, while Hotel B has 10 rooms available.");
 })
-.WithName("GetWeatherForecast");
+.WithName("GetAccomodation");
 
 app.Run();
 
