@@ -1,3 +1,4 @@
+using Azure.AI.OpenAI;
 using IntelligentCityApp.ProcessOrchestration;
 using IntelligentCityApp.ProcessOrchestration.AgentsConnectors;
 using IntelligentCityApp.ProcessOrchestration.Events;
@@ -50,6 +51,7 @@ builder.Services.AddHttpClient<AccomodationAgentHttpClient>(client =>
 });
 builder.Services.AddSingleton(builder => {
     var kernelBuilder = Kernel.CreateBuilder();
+    kernelBuilder.AddAzureOpenAIChatCompletion("gpt-4o", builder.GetService<AzureOpenAIClient>());
     kernelBuilder.Services.AddSingleton(builder.GetRequiredService<AccomodationAgentHttpClient>());
     return kernelBuilder.Build();
 });

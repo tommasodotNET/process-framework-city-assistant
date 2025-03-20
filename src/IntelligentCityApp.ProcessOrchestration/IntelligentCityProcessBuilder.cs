@@ -12,7 +12,7 @@ public static class IntelligentCityProcessBuilder
         var accomodationStep = processBuilder.AddStepFromType<Steps.AccomodationStep>();
 
         processBuilder
-            .OnEvent(IntelligentCityEvents.NewRequestReceived)
+            .OnInputEvent(IntelligentCityEvents.NewRequestReceived)
             .SendEventTo(new(managerAgentStep, Steps.ManagerAgentStep.Functions.IdentifyUserRequest, parameterName: "userRequest"));
 
         managerAgentStep

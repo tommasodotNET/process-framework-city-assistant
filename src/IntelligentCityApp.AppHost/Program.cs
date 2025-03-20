@@ -19,6 +19,7 @@ builder.RegisterFiscals(sqlInstance);
 var accomodationAgent = builder.RegisterAccomodation(sqlInstance);
 
 builder.AddProject<Projects.IntelligentCityApp_ProcessOrchestration>("process-orchestrator")
+    .WithReference(openai)
     .WithReference(accomodationAgent);
 
 builder.Build().Run();
