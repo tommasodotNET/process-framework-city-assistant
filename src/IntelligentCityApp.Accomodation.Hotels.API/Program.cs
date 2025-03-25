@@ -1,10 +1,18 @@
 using IntelligentCityApp.Accomodation.Hotels.API;
+using IntelligentCityApp.Accomodation.Hotels.API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.Services.AddOpenApi();
+builder.AddSqlServerDbContext<AccomodationContext>("HotelDb");
 
 var app = builder.Build();
+var db = app.Services.CreateScope().ServiceProvider.GetService<AccomodationContext>()!;
+await db.Database.EnsureDeletedAsync();
+await db.Database.EnsureCreatedAsync();
+db.Accomodations.AddRange(ReservationGenerator.GenerateAccomodations());
+await db.SaveChangesAsync();
 
 app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
@@ -17,9 +25,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapGet("/accomodations", () =>
+app.MapGet("/accomodations", async (AccomodationContext db) =>
 {
-    var generated = ReservationGenerator.GenerateAccomodations();
+    var generated = await db.Accomodations.Include(a => a.Rooms).ThenInclude(r => r.Reservations).ToListAsync();
     return Results.Ok(generated);
 })
 .WithName("GetAccomodations");
