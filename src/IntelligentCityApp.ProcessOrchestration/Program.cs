@@ -51,7 +51,7 @@ builder.Services.AddHttpClient<AccomodationAgentHttpClient>(client =>
 });
 builder.Services.AddSingleton(builder => {
     var kernelBuilder = Kernel.CreateBuilder();
-    kernelBuilder.AddAzureOpenAIChatCompletion("gpt-4o", builder.GetService<AzureOpenAIClient>());
+    kernelBuilder.AddAzureOpenAIChatCompletion("gpt-4o-mini", builder.GetService<AzureOpenAIClient>());
     kernelBuilder.Services.AddSingleton(builder.GetRequiredService<AccomodationAgentHttpClient>());
     return kernelBuilder.Build();
 });

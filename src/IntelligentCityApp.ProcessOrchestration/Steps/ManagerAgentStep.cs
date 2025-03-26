@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using IntelligentCityApp.ProcessOrchestration.Events;
 using Microsoft.SemanticKernel;
@@ -34,13 +35,21 @@ public class ManagerAgentStep : KernelProcessStep
 
         IChatCompletionService service = kernel.GetRequiredService<IChatCompletionService>();
 
-        ChatMessageContent response = await service.GetChatMessageContentAsync(localHistory, new OpenAIPromptExecutionSettings { ResponseFormat = s_intentResponseFormat });
+        var responseFormat = JsonSchema.FromType<IntentResult>().ToJson();
+        var responseFormatJson = ChatResponseFormat.CreateJsonSchemaFormat(
+            jsonSchemaFormatName: "intent_result",
+            jsonSchema: BinaryData.FromString(responseFormat),
+            jsonSchemaIsStrict: true);
+
+        ChatMessageContent response = await service.GetChatMessageContentAsync(localHistory, new OpenAIPromptExecutionSettings { ResponseFormat = responseFormatJson });
         IntentResult intent = JsonSerializer.Deserialize<IntentResult>(response.ToString())!;
 
         var sharedChatHistory = new ChatHistory();
         sharedChatHistory.Add(new ChatMessageContent(AuthorRole.User, userRequest));
 
-        switch (intent.UserIntent)
+        var userIntent = Enum.Parse<UserIntents>(intent.UserIntent, ignoreCase: true);
+
+        switch (userIntent)
         {
             case UserIntents.RetrieveAccomodation:
                 await context.EmitEventAsync(new() { Id = IntelligentCityEvents.RetrieveAccomodation, Data = sharedChatHistory });
@@ -66,16 +75,13 @@ public class ManagerAgentStep : KernelProcessStep
         RetrieveWeather
     }
 
-    private static readonly ChatResponseFormat s_intentResponseFormat = ChatResponseFormat.CreateJsonSchemaFormat(
-        jsonSchemaFormatName: "intent_result",
-        jsonSchema: BinaryData.FromString(JsonSchema.FromType<IntentResult>().ToString()!),
-        jsonSchemaIsStrict: true);
-
     [DisplayName("IntentResult")]
     [Description("this is the result description")]
     public sealed record IntentResult(
         [property:Description("Represents the intent identified by the agent. The value is one of the available intents.")]
-        UserIntents UserIntent,
+        [property:Required(AllowEmptyStrings = true)]
+        string UserIntent,
         [property:Description("Rationale for the value assigned to IsRequestingUserInput")]
+        [property:Required(AllowEmptyStrings = true)]
         string Rationale);
 }
