@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IntelligentCityApp.Events.Municipalities.API\IntelligentCityApp.Events.Municipalities.API.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.ServiceDefaults\IntelligentCityApp.ServiceDefaults.csproj" />
   </ItemGroup>
 

@@ -1,25 +1,25 @@
-﻿using IntelligentCityApp.Accomodation.Hotels.API.Entities;
+﻿using Bogus;
+using IntelligentCityApp.Accomodation.Hotels.API.Entities;
 
 namespace IntelligentCityApp.Accomodation.Hotels.API;
 
 public static class ReservationGenerator
 {
-    private static readonly Random random = new();
-    private static readonly List<string> hotelNames = new() { "Hotel Excelsior", "Grand Hotel", "Hotel Paradiso", "Hotel Roma", "Hotel Firenze", "Hotel Venezia", "Hotel Torino", "Hotel Napoli", "Hotel Genova", "Hotel Bologna", "Hotel Verona", "Hotel Palermo", "Hotel Catania", "Hotel Bari", "Hotel Trieste" };
-    private static readonly List<string> guestNames = new() { "Mario Rossi", "Luigi Bianchi", "Giovanni Verdi", "Francesca Neri", "Anna Russo", "Paolo Ferrari", "Laura Conti", "Marco Gallo", "Elena Greco", "Giorgio Moretti", "Silvia Romano", "Alessandro Costa", "Valentina Fontana", "Roberto Ricci", "Chiara Bruno", "Stefano De Luca", "Federica Rizzo", "Andrea Lombardi", "Sara Esposito", "Davide Marini" };
+    public static List<string> RoomTypes = new() { "Regular", "Deluxe", "Superior", "Suite", "King Suite", "Junior Suite" };
 
     public static List<Entities.Accomodation> GenerateAccomodations()
     {
+        var faker = new Faker("it");
         var accomodations = new List<Entities.Accomodation>();
 
-        for (int i = 0; i < hotelNames.Count; i++)
+        for (int i = 0; i < faker.Random.Int(15, 100); i++)
         {
             var accomodation = new Entities.Accomodation
             {
-                Id = i + 1,
-                Name = hotelNames[i],
-                Address = $"Via {hotelNames[i].Split(' ')[1]} {i + 1}, Milano",
-                Rooms = GenerateRooms()
+                //Id = i + 1,
+                Name = faker.Company.CompanyName(),
+                Address = faker.Address.FullAddress(),
+                Rooms = GenerateRooms(faker)
             };
 
             accomodations.Add(accomodation);
@@ -28,20 +28,21 @@ public static class ReservationGenerator
         return accomodations;
     }
 
-    private static List<Room> GenerateRooms()
+    private static List<Room> GenerateRooms(Faker faker)
     {
         var rooms = new List<Room>();
-        int numberOfRooms = random.Next(5, 21);
+        int numberOfRooms = faker.Random.Int(5, 20);
 
         for (int i = 1; i <= numberOfRooms; i++)
         {
+            var id = faker.Random.Guid();
             var room = new Room
             {
-                Id = i,
-                Type = $"Type {random.Next(1, 5)}",
-                NumberOfBeds = random.Next(1, 4),
-                IsAvailable = random.Next(0, 2) == 1,
-                Reservations = GenerateReservations(i)
+                Id = id,
+                Type = $"Type {faker.PickRandom(RoomTypes)}",
+                NumberOfBeds = faker.Random.Int(1, 3),
+                IsAvailable = faker.Random.Bool(),
+                Reservations = GenerateReservations(faker, id)
             };
 
             rooms.Add(room);
@@ -50,32 +51,26 @@ public static class ReservationGenerator
         return rooms;
     }
 
-    private static List<Room.Reservation> GenerateReservations(int roomId)
+    private static List<Reservation> GenerateReservations(Faker faker, Guid roomId)
     {
-        var reservations = new List<Room.Reservation>();
-        int numberOfReservations = random.Next(1, 41);
+        var reservations = new List<Reservation>();
+        int numberOfReservations = faker.Random.Int(1, 40);
 
         for (int i = 1; i <= numberOfReservations; i++)
         {
-            var reservation = new Room.Reservation
+            var reservation = new Reservation
             {
-                Id = i,
+                Id = faker.Random.Guid(),
                 RoomId = roomId,
-                CheckInDate = GenerateRandomDate(new DateOnly(2025, 4, 1), new DateOnly(2025, 6, 30)),
-                CheckOutDate = GenerateRandomDate(new DateOnly(2025, 4, 2), new DateOnly(2025, 7, 1)),
-                GuestName = guestNames[random.Next(guestNames.Count)],
-                GuestNationality = "Italian"
+                CheckInDate = DateOnly.FromDateTime(faker.Date.Between(new DateTime(2025, 4, 1), new DateTime(2025, 6, 30))),
+                CheckOutDate = DateOnly.FromDateTime(faker.Date.Between(new DateTime(2025, 4, 2), new DateTime(2025, 7, 1))),
+                GuestName = faker.Name.FullName(),
+                GuestNationality = faker.Address.Country()
             };
 
             reservations.Add(reservation);
         }
 
         return reservations;
-    }
-
-    private static DateOnly GenerateRandomDate(DateOnly start, DateOnly end)
-    {
-        int range = (end.ToDateTime(TimeOnly.MinValue) - start.ToDateTime(TimeOnly.MinValue)).Days;
-        return start.AddDays(random.Next(range));
     }
 }

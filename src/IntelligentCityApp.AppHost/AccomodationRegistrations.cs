@@ -5,7 +5,7 @@ namespace IntelligentCityApp.AppHost;
 
 public static class AccomodationRegistrations
 {
-    public static IResourceBuilder<ProjectResource>? RegisterAccomodation(this IDistributedApplicationBuilder builder, IResourceBuilder<Resource> sqlInstance)
+    public static IResourceBuilder<ProjectResource> RegisterAccomodation(this IDistributedApplicationBuilder builder, IResourceBuilder<Resource> sqlInstance)
     {
         IResourceBuilder<IResourceWithConnectionString> hotelsDB;
         IResourceBuilder<IResourceWithConnectionString> rentalDB;
