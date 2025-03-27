@@ -1,45 +1,33 @@
+using IntelligentCityApp.Accomodation.Parking.API;
+using IntelligentCityApp.Accomodation.Parking.API.Entities;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
-
 builder.AddServiceDefaults();
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.AddSqlServerDbContext<ParkingContext>("ParkingDB");
 
 var app = builder.Build();
+var db = app.Services.CreateScope().ServiceProvider.GetService<ParkingContext>()!;
+await db.Database.EnsureDeletedAsync();
+await db.Database.EnsureCreatedAsync();
+db.Parkings.AddRange(ReservationGenerator.GenerateParkings());
+await db.SaveChangesAsync();
 
-app.MapDefaultEndpoints();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Hotel API");
+    });
 }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
+app.MapGet("/parkings", async (ParkingContext db) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var generated = await db.Parkings.Include(a => a.UpcomingReservations).ToListAsync();
+    return Results.Ok(generated);
 })
-.WithName("GetWeatherForecast");
-
+.WithName("GetParkings");
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
