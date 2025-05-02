@@ -15,11 +15,15 @@ else
 var accomodationAgent = builder.RegisterAccomodation(sqlInstance);
 var eventAgent = builder.RegisterEvents(sqlInstance);
 
-builder.AddProject<Projects.IntelligentCityApp_ProcessOrchestration>("process-orchestrator")
+var process = builder.AddProject<Projects.IntelligentCityApp_ProcessOrchestration>("process-orchestrator")
     .WithReference(openai)
     .WithReference(accomodationAgent)
     .WithReference(eventAgent)
     .WaitFor(accomodationAgent)
     .WaitFor(eventAgent);
+
+builder.AddProject<Projects.IntelligentCityApp_WebClient>("intelligentcityapp-webclient")
+    .WithReference(process)
+    .WaitFor(process);
 
 builder.Build().Run();

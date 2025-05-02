@@ -1,0 +1,68 @@
+﻿@page "/webchat"
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<PageTitle>Intelligent Chat</PageTitle>
+
+<div class="form-group">
+    <label>
+        Question:
+        <input multiple="10" @bind="userInput" />
+    </label>
+</div>
+<button @onclick="Send" disabled="@(!IsConnected)">Send</button>
+
+<hr>
+
+<ul id="messagesList">
+    @foreach (var message in messages)
+    {
+        <li>@message</li>
+    }
+</ul>
+
+@code {
+    [Inject] private IHttpClientFactory? factory { get; set; }
+    private HttpClient ProcessClient { get; set; }
+
+    private HubConnection? hubConnection;
+    private List<string> messages = [];
+    private string? userInput;
+    private string? messageInput;
+
+    protected override async Task OnInitializedAsync()
+    {        
+        ProcessClient = factory!.CreateClient("process-orchestrator-api");
+        // Must read real endpoint for SignalR client
+        var baseUri = Environment.GetEnvironmentVariable("services__process-orchestrator__https__0");
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(new Uri(new Uri(baseUri), "/pfevents"))
+            .Build();
+
+        hubConnection.On<string>("ReceivePFEvents", (message) =>
+        {
+            messages.Add(message);
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task Send()
+    {
+        var response = await ProcessClient.GetAsync($"/city-agents-orchestration?UserRequest={userInput}");
+    }
+
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

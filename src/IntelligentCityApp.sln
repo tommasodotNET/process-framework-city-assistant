@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.Accomoda
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.ProcessOrchestration", "IntelligentCityApp.ProcessOrchestration\IntelligentCityApp.ProcessOrchestration.csproj", "{48611A52-F3C2-455D-8BF2-5CC1E407DFF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentCityApp.WebClient", "IntelligentCityApp.WebClient\IntelligentCityApp.WebClient.csproj", "{5F8C3060-4099-434C-F6B9-0E240335DD53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -275,6 +277,18 @@ Global
 		{48611A52-F3C2-455D-8BF2-5CC1E407DFF7}.Release|x64.Build.0 = Release|Any CPU
 		{48611A52-F3C2-455D-8BF2-5CC1E407DFF7}.Release|x86.ActiveCfg = Release|Any CPU
 		{48611A52-F3C2-455D-8BF2-5CC1E407DFF7}.Release|x86.Build.0 = Release|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Debug|x64.Build.0 = Debug|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Debug|x86.Build.0 = Debug|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Release|x64.ActiveCfg = Release|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Release|x64.Build.0 = Release|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F8C3060-4099-434C-F6B9-0E240335DD53}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

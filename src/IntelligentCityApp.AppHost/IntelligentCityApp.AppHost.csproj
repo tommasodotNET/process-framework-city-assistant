@@ -34,6 +34,7 @@
     <ProjectReference Include="..\IntelligentCityApp.PublicUtilities.API\IntelligentCityApp.PublicUtilities.API.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.Transportation.Agent\IntelligentCityApp.Transportation.Agent.csproj" />
     <ProjectReference Include="..\IntelligentCityApp.Transportation.Underground.API\IntelligentCityApp.Transportation.Underground.API.csproj" />
+    <ProjectReference Include="..\IntelligentCityApp.WebClient\IntelligentCityApp.WebClient.csproj" />
   </ItemGroup>
 
 </Project>
