@@ -60,14 +60,6 @@ public class ManagerAgentStep : KernelProcessStep
         }
     }
 
-    // Here we should have another function to handle the other intents. When an agent answers, we should receive an event and reanalyze the user request to see if we need
-    // to invoke another agent or if we can finish the process. All the previous agents responses should be provided to the next agent.
-    [KernelFunction(Functions.AgentResponded)]
-    public async Task AgentRespondedAsync(KernelProcessStepContext context, Kernel kernel, string userRequest)
-    {
-        await context.EmitEventAsync(new() { Id = IntelligentCityEvents.FinalizeProcess, Data = userRequest });
-    }
-
     public enum UserIntents
     {
         RetrieveAccomodation,

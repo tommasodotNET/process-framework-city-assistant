@@ -8,33 +8,35 @@ var builder = WebApplication.CreateBuilder(args);
 
 AppContext.SetSwitch("Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnosticsSensitive", true);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.AddAzureOpenAIClient("azureOpenAI");
 builder.AddServiceDefaults();
 builder.Services.AddOpenApi();
 builder.Services.AddHttpClient<AccomodationAgentHttpClient>(client =>
 {
-    client.BaseAddress = new Uri("https+http://accomodationAgent");
+    client.BaseAddress = new Uri("https+http://intelligentcityapp-accomodation-agent");
 });
 builder.Services.AddHttpClient<EventAgentHttpClient>(client =>
 {
-    client.BaseAddress = new Uri("https+http://eventAgent");
+    client.BaseAddress = new Uri("https+http://intelligentcityapp-events-agent");
 });
-builder.Services.AddKernel()
-    .AddAzureOpenAIChatCompletion("gpt-4o")
-    .Services
-        .AddSingleton<AccomodationAgentHttpClient>()
-        .AddSingleton<EventAgentHttpClient>();
+builder.Services.AddSingleton(builder => {
+    var kernelBuilder = Kernel.CreateBuilder();
+    kernelBuilder.AddAzureOpenAIChatCompletion("gpt-4o", builder.GetService<AzureOpenAIClient>());
+    kernelBuilder.Services.AddSingleton(builder.GetRequiredService<AccomodationAgentHttpClient>());
+    kernelBuilder.Services.AddSingleton(builder.GetRequiredService<EventAgentHttpClient>());
+    return kernelBuilder.Build();
+});
 builder.Services.AddSingleton(builder => {
     var processBuilder = new ProcessBuilder("CityAgentsOrchestration")
         .AddIntelligentCityProcessStepsAndFlows();
     return processBuilder;
 });
-builder.Services.AddTransient(builder => {
+builder.Services.AddTransient(builder =>
+{
     var processBuilder = builder.GetRequiredService<ProcessBuilder>();
     return processBuilder.Build();
 });
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -48,9 +50,11 @@ app.UseHttpsRedirection();
 
 app.MapGet("/city-agents-orchestration", async (KernelProcess process, Kernel kernel, string userRequest) =>
 {
-    await using var runningProcess = await process.StartAsync(
+    var externalMessageChannel = new ExternalEventProxyChannel();
+    var runningProcess = await process.StartAsync(
         kernel,
-        new KernelProcessEvent { Id = IntelligentCityEvents.NewRequestReceived, Data = userRequest }
+        new KernelProcessEvent { Id = IntelligentCityEvents.NewRequestReceived, Data = userRequest },
+        externalMessageChannel
     );
 
     return Results.Ok();
@@ -58,5 +62,10 @@ app.MapGet("/city-agents-orchestration", async (KernelProcess process, Kernel ke
 .WithName("CityAgentsOrchestration");
 
 app.MapDefaultEndpoints();
+
+app.MapHub<ProcessFrameworkHub>("/pfevents", options =>
+{
+    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+});
 
 app.Run();

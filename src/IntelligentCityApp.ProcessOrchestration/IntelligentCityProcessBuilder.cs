@@ -12,6 +12,8 @@ public static class IntelligentCityProcessBuilder
         var accomodationStep = processBuilder.AddStepFromType<Steps.AccomodationStep>();
         var eventStep = processBuilder.AddStepFromType<Steps.EventStep>();
 
+        var proxyStep = processBuilder.AddProxyStep([IntelligentCityTopics.AccomodationRetrieved, IntelligentCityTopics.EventsRetrieved]);
+
         processBuilder
             .OnInputEvent(IntelligentCityEvents.NewRequestReceived)
             .SendEventTo(new(managerAgentStep, Steps.ManagerAgentStep.Functions.IdentifyUserRequest, parameterName: "userRequest"));
@@ -26,16 +28,20 @@ public static class IntelligentCityProcessBuilder
 
         accomodationStep
             .OnEvent(IntelligentCityEvents.InformationRetrieved)
-            .SendEventTo(new(managerAgentStep, Steps.ManagerAgentStep.Functions.AgentResponded, parameterName: "userRequest"));
+            .EmitExternalEvent(proxyStep, IntelligentCityTopics.AccomodationRetrieved)
+            .StopProcess();
 
         eventStep
             .OnEvent(IntelligentCityEvents.InformationRetrieved)
-            .SendEventTo(new(managerAgentStep, Steps.ManagerAgentStep.Functions.AgentResponded, parameterName: "userRequest"));
-
-        managerAgentStep
-            .OnEvent(IntelligentCityEvents.FinalizeProcess)
+            .EmitExternalEvent(proxyStep, IntelligentCityTopics.EventsRetrieved)
             .StopProcess();
 
         return processBuilder;
     }
+}
+
+public static class IntelligentCityTopics
+{
+    public const string AccomodationRetrieved = nameof(AccomodationRetrieved);
+    public const string EventsRetrieved = nameof(EventsRetrieved);
 }

@@ -19,7 +19,6 @@ public class AccomodationStep : KernelProcessStep
         var accomodationAgentHttpClient = kernel.GetRequiredService<AccomodationAgentHttpClient>();
         var accomodationAgentResponse = await accomodationAgentHttpClient.RetrieveAccomodationAsync(chatHistory);
         Console.WriteLine($"Accomodation retrieved: {accomodationAgentResponse}");
-        chatHistory.Add(new ChatMessageContent(AuthorRole.Assistant, accomodationAgentResponse));
-        await context.EmitEventAsync(new () { Id = IntelligentCityEvents.InformationRetrieved, Data = chatHistory });
+        await context.EmitEventAsync(new () { Id = IntelligentCityEvents.InformationRetrieved, Data = accomodationAgentResponse });
     }
 }

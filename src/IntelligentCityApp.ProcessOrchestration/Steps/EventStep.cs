@@ -19,7 +19,6 @@ public class EventStep : KernelProcessStep
         var eventAgentHttpClient = kernel.GetRequiredService<EventAgentHttpClient>();
         var eventAgentResponse = await eventAgentHttpClient.RetrieveEventAsync(chatHistory);
         Console.WriteLine($"event retrieved: {eventAgentResponse}");
-        chatHistory.Add(new ChatMessageContent(AuthorRole.Assistant, eventAgentResponse));
-        await context.EmitEventAsync(new () { Id = IntelligentCityEvents.InformationRetrieved, Data = chatHistory });
+        await context.EmitEventAsync(new () { Id = IntelligentCityEvents.InformationRetrieved, Data = eventAgentResponse });
     }
 }

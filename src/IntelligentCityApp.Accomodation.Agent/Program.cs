@@ -18,11 +18,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
 app.MapPost("/agents/accomodation", () =>
 {
     return Results.Ok("I found two hotels in selected dates: Hotel A and Hotel B. Hotel A has 5 rooms available, while Hotel B has 10 rooms available.");
@@ -30,8 +25,3 @@ app.MapPost("/agents/accomodation", () =>
 .WithName("GetAccomodation");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
