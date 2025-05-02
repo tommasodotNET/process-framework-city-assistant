@@ -10,6 +10,7 @@ public static class IntelligentCityProcessBuilder
     {
         var managerAgentStep = processBuilder.AddStepFromType<Steps.ManagerAgentStep>();
         var accomodationStep = processBuilder.AddStepFromType<Steps.AccomodationStep>();
+        var eventStep = processBuilder.AddStepFromType<Steps.EventStep>();
 
         processBuilder
             .OnInputEvent(IntelligentCityEvents.NewRequestReceived)
@@ -19,7 +20,15 @@ public static class IntelligentCityProcessBuilder
             .OnEvent(IntelligentCityEvents.RetrieveAccomodation)
             .SendEventTo(new(accomodationStep, Steps.AccomodationStep.Functions.RetrieveAccomodation, parameterName: "chatHistory"));
 
+        managerAgentStep
+            .OnEvent(IntelligentCityEvents.RetrieveEvents)
+            .SendEventTo(new(eventStep, Steps.EventStep.Functions.RetrieveEvents, parameterName: "chatHistory"));
+
         accomodationStep
+            .OnEvent(IntelligentCityEvents.InformationRetrieved)
+            .SendEventTo(new(managerAgentStep, Steps.ManagerAgentStep.Functions.AgentResponded, parameterName: "userRequest"));
+
+        eventStep
             .OnEvent(IntelligentCityEvents.InformationRetrieved)
             .SendEventTo(new(managerAgentStep, Steps.ManagerAgentStep.Functions.AgentResponded, parameterName: "userRequest"));
 

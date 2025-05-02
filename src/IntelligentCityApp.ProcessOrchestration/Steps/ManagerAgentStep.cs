@@ -54,6 +54,9 @@ public class ManagerAgentStep : KernelProcessStep
             case UserIntents.RetrieveAccomodation:
                 await context.EmitEventAsync(new() { Id = IntelligentCityEvents.RetrieveAccomodation, Data = sharedChatHistory });
                 break;
+            case UserIntents.RetrieveEvents:
+                await context.EmitEventAsync(new() { Id = IntelligentCityEvents.RetrieveEvents, Data = sharedChatHistory });
+                break;
         }
     }
 
@@ -62,17 +65,13 @@ public class ManagerAgentStep : KernelProcessStep
     [KernelFunction(Functions.AgentResponded)]
     public async Task AgentRespondedAsync(KernelProcessStepContext context, Kernel kernel, string userRequest)
     {
-        // Here we should have another function to handle the other intents. When an agent answers, we should receive an event and reanalyze the user request to see if we need
-        // to invoke another agent or if we can finish the process. All the previous agents responses should be provided to the next agent.
         await context.EmitEventAsync(new() { Id = IntelligentCityEvents.FinalizeProcess, Data = userRequest });
     }
 
     public enum UserIntents
     {
         RetrieveAccomodation,
-        RetrieveSummary,
-        RetrieveTouristAttractions,
-        RetrieveWeather
+        RetrieveEvents
     }
 
     [DisplayName("IntentResult")]

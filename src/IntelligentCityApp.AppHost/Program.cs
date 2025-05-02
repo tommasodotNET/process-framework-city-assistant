@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var openai = builder.AddConnectionString("openAIConnection");
+var openai = builder.AddConnectionString("azureOpenAI");
 
 IResourceBuilder<Resource> sqlInstance;
 if (builder.Environment.IsProduction())
@@ -12,14 +12,14 @@ else
     sqlInstance = builder.AddSqlServer("IntelligentCityServer")
         .WithLifetime(ContainerLifetime.Persistent);
 
-builder.RegisterTransportation(sqlInstance);
-builder.RegisterEvents(sqlInstance);
-builder.RegisterPublicUtilities(sqlInstance);
-builder.RegisterFiscals(sqlInstance);
 var accomodationAgent = builder.RegisterAccomodation(sqlInstance);
+var eventAgent = builder.RegisterEvents(sqlInstance);
 
 builder.AddProject<Projects.IntelligentCityApp_ProcessOrchestration>("process-orchestrator")
     .WithReference(openai)
-    .WithReference(accomodationAgent);
+    .WithReference(accomodationAgent)
+    .WithReference(eventAgent)
+    .WaitFor(accomodationAgent)
+    .WaitFor(eventAgent);
 
 builder.Build().Run();
