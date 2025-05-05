@@ -1,45 +1,34 @@
+using IntelligentCityApp.Events.Cinemas.API;
+using IntelligentCityApp.Events.Cinemas.API.Entities;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
-
 builder.AddServiceDefaults();
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.AddSqlServerDbContext<CinemaContext>("CinemaDb");
 
 var app = builder.Build();
+var db = app.Services.CreateScope().ServiceProvider.GetService<CinemaContext>()!;
+await db.Database.EnsureDeletedAsync();
+await db.Database.EnsureCreatedAsync();
+db.Cinemas.AddRange(ReservationGenerator.GenerateCinemasFromThePast());
+await db.SaveChangesAsync();
 
 app.MapDefaultEndpoints();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Cinema API");
+    });
 }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
+app.MapGet("/cinemas", async (CinemaContext db) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var generated = await db.Cinemas.Include(t => t.Actors).Include(t => t.Authors).ToListAsync();
+    return Results.Ok(generated);
 })
-.WithName("GetWeatherForecast");
-
+.WithName("GetCinemas");
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

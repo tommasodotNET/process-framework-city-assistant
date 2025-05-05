@@ -1,45 +1,34 @@
+using IntelligentCityApp.Events.Festival.API;
+using IntelligentCityApp.Events.Festival.API.Entities;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
-
 builder.AddServiceDefaults();
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.AddSqlServerDbContext<FestivalContext>("FestivalDb");
 
 var app = builder.Build();
+var db = app.Services.CreateScope().ServiceProvider.GetService<FestivalContext>()!;
+await db.Database.EnsureDeletedAsync();
+await db.Database.EnsureCreatedAsync();
+db.Festivals.AddRange(ReservationGenerator.GenerateFestivals());
+await db.SaveChangesAsync();
 
 app.MapDefaultEndpoints();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Cinema API");
+    });
 }
 
 app.UseHttpsRedirection();
-
-var summaries = new[]
+app.MapGet("/cinemas", async (FestivalContext db) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var generated = await db.Festivals.ToListAsync();
+    return Results.Ok(generated);
 })
-.WithName("GetWeatherForecast");
-
+.WithName("GetFestivals");
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
