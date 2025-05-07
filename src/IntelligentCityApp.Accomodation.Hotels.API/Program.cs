@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapGet("/accomodations", async (AccomodationContext db) =>
 {
-    var generated = await db.Accomodations.Include(a => a.Rooms).ThenInclude(r => r.Reservations).ToListAsync();
+    var generated = await db.Accomodations.Include(a => a.Rooms).ToListAsync();
     return Results.Ok(generated);
 })
 .WithName("GetAccomodations");

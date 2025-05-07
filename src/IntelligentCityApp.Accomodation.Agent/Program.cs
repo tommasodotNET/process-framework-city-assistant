@@ -1,10 +1,50 @@
+using IntelligentCityApp.Accomodation.Agent;
+using IntelligentCityApp.Accomodation.Agent.Plugins;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Agents;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+AppContext.SetSwitch("Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnosticsSensitive", true);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.AddServiceDefaults();
+builder.AddAzureOpenAIClient("azureOpenAI");
 builder.Services.AddOpenApi();
+builder.Services.AddHttpClient<HotelAPIHttpClient>(client =>
+{
+    client.BaseAddress = new Uri("https+http://intelligentcityapp-accomodation-hotels-api");
+});
+builder.Services.AddHttpClient<ParkingAPIHttpClient>(client =>
+{
+    client.BaseAddress = new Uri("https+http://intelligentcityapp-accomodation-parking-api");
+});
+builder.Services.AddHttpClient<RentalAPIHttpClient>(client =>
+{
+    client.BaseAddress = new Uri("https+http://intelligentcityapp-accomodation-rental-api");
+});
+builder.Services.AddSingleton<AccomodationPlugin>();
+builder.Services.AddKernel().AddAzureOpenAIChatCompletion("gpt-4o");
+builder.Services.AddSingleton(builder => 
+{
+    var _settings = new OpenAIPromptExecutionSettings()
+    {
+        ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
+        Temperature = 0.1,
+        MaxTokens = 500,
+    };
+    var agent = new ChatCompletionAgent
+    {
+        Name = "MathAgent",
+        Instructions = "You are a helpful assistant. Answer the user's questions to the best of your ability using your tools.",
+        Kernel = builder.GetRequiredService<Kernel>(),
+        Arguments = new(_settings)
+    };
+    agent.Kernel.Plugins.AddFromObject(builder.GetRequiredService<AccomodationPlugin>());
+
+    return agent;
+});
 
 var app = builder.Build();
 
@@ -18,9 +58,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/agents/accomodation", () =>
+app.MapPost("/agents/accomodation", async (ChatCompletionAgent agent, ChatHistory history) =>
 {
-    return Results.Ok("I found two hotels in selected dates: Hotel A and Hotel B. Hotel A has 5 rooms available, while Hotel B has 10 rooms available.");
+    var agentThread = new ChatHistoryAgentThread();
+
+    await foreach (var response in agent.InvokeAsync(history, agentThread))
+    {
+        return response.Message.Content;
+    }
+
+    return null;
 })
 .WithName("GetAccomodation");
 

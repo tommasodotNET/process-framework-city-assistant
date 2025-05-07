@@ -12,8 +12,10 @@ else
     sqlInstance = builder.AddSqlServer("IntelligentCityServer")
         .WithLifetime(ContainerLifetime.Persistent);
 
-var accomodationAgent = builder.RegisterAccomodation(sqlInstance);
-var eventAgent = builder.RegisterEvents(sqlInstance);
+var accomodationAgent = builder.RegisterAccomodation(sqlInstance)
+    .WithReference(openai);
+var eventAgent = builder.RegisterEvents(sqlInstance)
+    .WithReference(openai);
 
 var process = builder.AddProject<Projects.IntelligentCityApp_ProcessOrchestration>("process-orchestrator")
     .WithReference(openai)

@@ -35,6 +35,9 @@ public static class AccomodationRegistrations
             .WaitFor(sqlInstance);
 
         var accomodationAgent = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Agent>("intelligentcityapp-accomodation-agent")
+            .WithReference(hotelApi)
+            .WithReference(rentalApi)
+            .WithReference(parkingApi)
             .WaitFor(hotelApi)
             .WaitFor(rentalApi)
             .WaitFor(parkingApi);
