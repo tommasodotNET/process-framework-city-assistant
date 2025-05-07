@@ -28,11 +28,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapGet("/accomodations", async (AccomodationContext db, [FromQuery] DateTime searchDate) =>
 {
-    var generated = await db.Accomodations
-        .Where(t => t.Rooms.Any(t => t.IsAvailable(searchDate)))
+    var rooms = await db.Accomodations
             .Include(a => a.Rooms)
-        .ToListAsync();
-    return Results.Ok(generated);
+            .ToListAsync();
+    var result = rooms.Where(t => t.Rooms.Any(t => t.IsAvailable(searchDate)));
+    return Results.Ok(result);
 })
 .WithName("GetAccomodations");
 app.Run();

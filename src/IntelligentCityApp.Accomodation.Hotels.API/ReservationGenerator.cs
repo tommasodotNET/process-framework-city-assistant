@@ -41,7 +41,6 @@ public static class ReservationGenerator
                 Id = id,
                 Type = $"Type {faker.PickRandom(RoomTypes)}",
                 NumberOfBeds = faker.Random.Int(1, 3),
-                IsAvailable = faker.Random.Bool(),
                 Reservations = GenerateReservations(faker, id)
             };
 

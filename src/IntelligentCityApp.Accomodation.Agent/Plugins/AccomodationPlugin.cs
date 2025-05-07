@@ -21,9 +21,9 @@ public class AccomodationPlugin
 
     [KernelFunction("GetHotels")]
     [Description("Get all hotels.")]
-    public async Task<string> GetAccomodationsAsync()
+    public async Task<string> GetAccomodationsAsync([Description("The date the user is requesting")]DateTime userRequestDate)
     {
-        return await _hotelApiClient.GetHotelsAsync();
+        return await _hotelApiClient.GetHotelsAsync(userRequestDate);
     }
 
     [KernelFunction("GetRentals")]

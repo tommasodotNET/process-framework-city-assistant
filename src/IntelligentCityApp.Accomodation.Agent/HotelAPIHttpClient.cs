@@ -6,9 +6,9 @@ public class HotelAPIHttpClient(HttpClient httpClient)
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<string> GetHotelsAsync()
+    public async Task<string> GetHotelsAsync(DateTime userRequestDate)
     {
-        var response = await _httpClient.GetAsync("/accomodations");
+        var response = await _httpClient.GetAsync("/accomodations/?searchDate=" + userRequestDate.ToString("yyyy-MM-dd"));
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync();
     }
