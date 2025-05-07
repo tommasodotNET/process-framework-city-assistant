@@ -1,5 +1,6 @@
 using IntelligentCityApp.Accomodation.Hotels.API;
 using IntelligentCityApp.Accomodation.Hotels.API.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,9 +26,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapGet("/accomodations", async (AccomodationContext db) =>
+app.MapGet("/accomodations", async (AccomodationContext db, [FromQuery] DateTime searchDate) =>
 {
-    var generated = await db.Accomodations.Include(a => a.Rooms).ToListAsync();
+    var generated = await db.Accomodations
+        .Where(t => t.Rooms.Any(t => t.IsAvailable(searchDate)))
+            .Include(a => a.Rooms)
+        .ToListAsync();
     return Results.Ok(generated);
 })
 .WithName("GetAccomodations");

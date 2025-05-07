@@ -13,9 +13,7 @@ public class Room
     public Guid Id { get; set; }
     public required string Type { get; set; }
     public int NumberOfBeds { get; set; }
-
-    public bool IsAvailable { get; set; }
-
+    public bool IsAvailable(DateTime date) => !Reservations.Any(t => t.CheckInDate >= DateOnly.FromDateTime(date) && t.CheckOutDate <= DateOnly.FromDateTime(date));
     public List<Reservation> Reservations { get; set; } = new();
 }
 
