@@ -14,19 +14,23 @@ builder.Services.AddOpenApi();
 builder.Services.AddHttpClient<AccomodationAgentHttpClient>(client =>
 {
     client.BaseAddress = new Uri("https+http://intelligentcityapp-accomodation-agent");
+    client.Timeout = TimeSpan.FromSeconds(60);
 });
 builder.Services.AddHttpClient<EventAgentHttpClient>(client =>
 {
     client.BaseAddress = new Uri("https+http://intelligentcityapp-events-agent");
+    client.Timeout = TimeSpan.FromSeconds(60);
 });
-builder.Services.AddSingleton(builder => {
+builder.Services.AddSingleton(builder =>
+{
     var kernelBuilder = Kernel.CreateBuilder();
     kernelBuilder.AddAzureOpenAIChatCompletion("gpt-4o", builder.GetService<AzureOpenAIClient>());
     kernelBuilder.Services.AddSingleton(builder.GetRequiredService<AccomodationAgentHttpClient>());
     kernelBuilder.Services.AddSingleton(builder.GetRequiredService<EventAgentHttpClient>());
     return kernelBuilder.Build();
 });
-builder.Services.AddSingleton(builder => {
+builder.Services.AddSingleton(builder =>
+{
     var processBuilder = new ProcessBuilder("CityAgentsOrchestration")
         .AddIntelligentCityProcessStepsAndFlows();
     return processBuilder;
