@@ -9,8 +9,8 @@ builder.AddSqlServerDbContext<ParkingContext>("ParkingDB");
 
 var app = builder.Build();
 var db = app.Services.CreateScope().ServiceProvider.GetService<ParkingContext>()!;
-await db.Database.EnsureDeletedAsync();
-await db.Database.EnsureCreatedAsync();
+//await db.Database.EnsureDeletedAsync();
+//await db.Database.EnsureCreatedAsync();
 db.Parkings.AddRange(ReservationGenerator.GenerateParkings());
 await db.SaveChangesAsync();
 

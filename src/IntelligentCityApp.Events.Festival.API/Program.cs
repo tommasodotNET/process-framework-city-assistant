@@ -9,8 +9,8 @@ builder.AddSqlServerDbContext<FestivalContext>("FestivalDb");
 
 var app = builder.Build();
 var db = app.Services.CreateScope().ServiceProvider.GetService<FestivalContext>()!;
-await db.Database.EnsureDeletedAsync();
-await db.Database.EnsureCreatedAsync();
+//await db.Database.EnsureDeletedAsync();
+//await db.Database.EnsureCreatedAsync();
 db.Festivals.AddRange(ReservationGenerator.GenerateFestivals());
 await db.SaveChangesAsync();
 

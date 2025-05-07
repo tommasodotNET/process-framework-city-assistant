@@ -22,7 +22,7 @@ builder.Services.AddHttpClient<FestivalAPIHttpClient>(client =>
 });
 builder.Services.AddSingleton<EventPlugin>();
 builder.Services.AddKernel().AddAzureOpenAIChatCompletion("gpt-4o");
-builder.Services.AddSingleton(builder => 
+builder.Services.AddSingleton(builder =>
 {
     var _settings = new OpenAIPromptExecutionSettings()
     {
@@ -33,7 +33,7 @@ builder.Services.AddSingleton(builder =>
     var agent = new ChatCompletionAgent
     {
         Name = "EventAgent",
-        Instructions = "You are a helpful assistant. Answer the user's questions to the best of your ability using your tools. Format your answer as a bootstrap table.",
+        Instructions = "You are a helpful assistant. Answer the user's questions to the best of your ability using your tools. Please, get markdown response",
         Kernel = builder.GetRequiredService<Kernel>(),
         Arguments = new(_settings)
     };

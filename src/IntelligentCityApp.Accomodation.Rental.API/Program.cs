@@ -9,8 +9,8 @@ builder.AddSqlServerDbContext<RentalContext>("RentalDB");
 
 var app = builder.Build();
 var db = app.Services.CreateScope().ServiceProvider.GetService<RentalContext>()!;
-await db.Database.EnsureDeletedAsync();
-await db.Database.EnsureCreatedAsync();
+//await db.Database.EnsureDeletedAsync();
+//await db.Database.EnsureCreatedAsync();
 db.Rentals.AddRange(ReservationGenerator.GenerateRentals());
 await db.SaveChangesAsync();
 

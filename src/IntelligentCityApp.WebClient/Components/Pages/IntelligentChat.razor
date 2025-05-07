@@ -65,7 +65,7 @@
 
         hubConnection.On<string>("ReceivePFEvents", async (message) =>
         {
-            message.Replace("\\\n", "<br>");
+            message.Replace("\\n", "<br>");
             messages.Add(message);
 
             await InvokeAsync(StateHasChanged);

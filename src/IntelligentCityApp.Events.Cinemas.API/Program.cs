@@ -9,8 +9,8 @@ builder.AddSqlServerDbContext<CinemaContext>("CinemaDb");
 
 var app = builder.Build();
 var db = app.Services.CreateScope().ServiceProvider.GetService<CinemaContext>()!;
-await db.Database.EnsureDeletedAsync();
-await db.Database.EnsureCreatedAsync();
+//await db.Database.EnsureDeletedAsync();
+//await db.Database.EnsureCreatedAsync();
 db.Cinemas.AddRange(ReservationGenerator.GenerateCinemasFromThePast());
 await db.SaveChangesAsync();
 
