@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.MapGet("/cinemas", async (CinemaContext db) =>
 {
-    var generated = await db.Cinemas.Include(t => t.Actors).Include(t => t.Authors).ToListAsync();
+    var generated = await db.Cinemas.Include(t => t.Actors).Include(t => t.Authors).Take(5).ToListAsync();
     return Results.Ok(generated);
 })
 .WithName("GetCinemas");

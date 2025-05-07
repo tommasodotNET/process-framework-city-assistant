@@ -25,9 +25,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapGet("/cinemas", async (FestivalContext db) =>
+app.MapGet("/festivals", async (FestivalContext db) =>
 {
-    var generated = await db.Festivals.ToListAsync();
+    var generated = await db.Festivals.Take(5).ToListAsync();
     return Results.Ok(generated);
 })
 .WithName("GetFestivals");
