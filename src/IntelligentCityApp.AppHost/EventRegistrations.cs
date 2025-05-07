@@ -29,6 +29,8 @@ public static class EventRegistrations
             .WaitFor(sqlInstance);
 
         var eventAgent = builder.AddProject<Projects.IntelligentCityApp_Events_Agent>("intelligentcityapp-events-agent")
+            .WithReference(cinemaApi)
+            .WithReference(festivalApi)
             .WaitFor(cinemaApi)
             .WaitFor(festivalApi);
 
