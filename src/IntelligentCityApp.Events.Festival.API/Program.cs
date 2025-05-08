@@ -8,9 +8,6 @@ builder.Services.AddOpenApi();
 builder.AddSqlServerDbContext<FestivalContext>("FestivalDb");
 
 var app = builder.Build();
-
-//await StartupDatabase(app);
-
 app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
 {
@@ -28,13 +25,14 @@ app.MapGet("/festivals", async (FestivalContext db) =>
     return Results.Ok(generated);
 })
 .WithName("GetFestivals");
-app.Run();
 
-static async Task StartupDatabase(WebApplication app)
+app.MapPost("/reset-db", async (FestivalContext db) =>
 {
-    var db = app.Services.CreateScope().ServiceProvider.GetService<FestivalContext>()!;
     await db.Database.EnsureDeletedAsync();
     await db.Database.EnsureCreatedAsync();
     db.Festivals.AddRange(ReservationGenerator.GenerateFestivals());
     await db.SaveChangesAsync();
-}
+    return Results.Ok("Database reset");
+});
+
+app.Run();

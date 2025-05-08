@@ -8,7 +8,6 @@ builder.Services.AddOpenApi();
 builder.AddSqlServerDbContext<ParkingContext>("ParkingDB");
 
 var app = builder.Build();
-//await StartupDatabase(app);
 
 if (app.Environment.IsDevelopment())
 {
@@ -26,13 +25,14 @@ app.MapGet("/parkings", async (ParkingContext db) =>
     return Results.Ok(generated);
 })
 .WithName("GetParkings");
-app.Run();
 
-static async Task StartupDatabase(WebApplication app)
+app.MapPost("/reset-db", async (ParkingContext db) =>
 {
-    var db = app.Services.CreateScope().ServiceProvider.GetService<ParkingContext>()!;
     await db.Database.EnsureDeletedAsync();
     await db.Database.EnsureCreatedAsync();
     db.Parkings.AddRange(ReservationGenerator.GenerateParkings());
     await db.SaveChangesAsync();
-}
+    return Results.Ok("Database reset");
+});
+
+app.Run();

@@ -22,11 +22,13 @@ public static class EventRegistrations
 
         var cinemaApi = builder.AddProject<Projects.IntelligentCityApp_Events_Cinemas_API>("intelligentcityapp-events-cinemas-api")
             .WithReference(cinemaDb)
-            .WaitFor(sqlInstance);
+            .WaitFor(sqlInstance)
+            .WithHttpCommand("/reset-db", "Reset Database", commandOptions: ResetDb); ;
 
         var festivalApi = builder.AddProject<Projects.IntelligentCityApp_Events_Festival_API>("intelligentcityapp-events-festival-api")
             .WithReference(festivalDb)
-            .WaitFor(sqlInstance);
+            .WaitFor(sqlInstance)
+            .WithHttpCommand("/reset-db", "Reset Database", commandOptions: ResetDb); ;
 
         var eventAgent = builder.AddProject<Projects.IntelligentCityApp_Events_Agent>("intelligentcityapp-events-agent")
             .WithReference(cinemaApi)
@@ -36,4 +38,15 @@ public static class EventRegistrations
 
         return eventAgent;
     }
+
+    public static HttpCommandOptions ResetDb = new()
+    {
+        Description = "Reset the catalog database to its initial state. This will delete and recreate the database.",
+        ConfirmationMessage = "Are you sure you want to reset the database?",
+        IconName = "DatabaseLightning",
+        PrepareRequest = requestContext =>
+        {
+            return Task.CompletedTask;
+        }
+    };
 }

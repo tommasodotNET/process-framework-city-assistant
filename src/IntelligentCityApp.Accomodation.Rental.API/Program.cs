@@ -8,7 +8,6 @@ builder.Services.AddOpenApi();
 builder.AddSqlServerDbContext<RentalContext>("RentalDB");
 
 var app = builder.Build();
-//await StartupDatabase(app);
 
 if (app.Environment.IsDevelopment())
 {
@@ -26,13 +25,15 @@ app.MapGet("/rental", async (RentalContext db) =>
     return Results.Ok(generated);
 })
 .WithName("GetRentals");
-app.Run();
 
-static async Task StartupDatabase(WebApplication app)
+
+app.MapPost("/reset-db", async (RentalContext db) =>
 {
-    var db = app.Services.CreateScope().ServiceProvider.GetService<RentalContext>()!;
     await db.Database.EnsureDeletedAsync();
     await db.Database.EnsureCreatedAsync();
     db.Rentals.AddRange(ReservationGenerator.GenerateRentals());
     await db.SaveChangesAsync();
-}
+    return Results.Ok("Database reset");
+});
+
+app.Run();

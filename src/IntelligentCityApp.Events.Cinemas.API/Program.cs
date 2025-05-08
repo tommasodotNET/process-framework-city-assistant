@@ -28,13 +28,15 @@ app.MapGet("/cinemas", async (CinemaContext db) =>
     return Results.Ok(generated);
 })
 .WithName("GetCinemas");
-app.Run();
 
-static async Task StartupDatabase(WebApplication app)
+app.MapPost("/reset-db", async (CinemaContext db) =>
 {
-    var db = app.Services.CreateScope().ServiceProvider.GetService<CinemaContext>()!;
     await db.Database.EnsureDeletedAsync();
     await db.Database.EnsureCreatedAsync();
     db.Cinemas.AddRange(ReservationGenerator.GenerateCinemasFromThePast());
     await db.SaveChangesAsync();
-}
+    return Results.Ok("Database reset");
+});
+
+app.Run();
+
