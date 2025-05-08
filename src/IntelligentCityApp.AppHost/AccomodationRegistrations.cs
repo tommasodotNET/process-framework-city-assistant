@@ -24,7 +24,18 @@ public static class AccomodationRegistrations
         }
         var hotelApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Hotels_API>("intelligentcityapp-accomodation-hotels-api")
             .WithReference(hotelsDB)
-            .WaitFor(sqlInstance);
+            .WaitFor(sqlInstance)
+            .WithHttpCommand("/reset-db", "Reset Database",
+                    commandOptions: new()
+                    {
+                        Description = "Reset the catalog database to its initial state. This will delete and recreate the database.",
+                        ConfirmationMessage = "Are you sure you want to reset the hotel database?",
+                        IconName = "DatabaseLightning",
+                        PrepareRequest = requestContext =>
+                        {
+                            return Task.CompletedTask;
+                        }
+                    });;
 
         var rentalApi = builder.AddProject<Projects.IntelligentCityApp_Accomodation_Rental_API>("intelligentcityapp-accomodation-rental-api")
             .WithReference(rentalDB)

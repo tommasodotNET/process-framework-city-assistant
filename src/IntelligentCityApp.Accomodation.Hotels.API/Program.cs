@@ -9,11 +9,6 @@ builder.Services.AddOpenApi();
 builder.AddSqlServerDbContext<AccomodationContext>("HotelDb");
 
 var app = builder.Build();
-var db = app.Services.CreateScope().ServiceProvider.GetService<AccomodationContext>()!;
-await db.Database.EnsureDeletedAsync();
-await db.Database.EnsureCreatedAsync();
-db.Accomodations.AddRange(ReservationGenerator.GenerateAccomodations());
-await db.SaveChangesAsync();
 
 app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
@@ -35,4 +30,14 @@ app.MapGet("/accomodations", async (AccomodationContext db, [FromQuery] DateTime
     return Results.Ok(result);
 })
 .WithName("GetAccomodations");
+
+app.MapPost("/reset-db", async (AccomodationContext db) =>
+{
+    await db.Database.EnsureDeletedAsync();
+    await db.Database.EnsureCreatedAsync();
+    db.Accomodations.AddRange(ReservationGenerator.GenerateAccomodations());
+    await db.SaveChangesAsync();
+    return Results.Ok("Database reset");
+});
+
 app.Run();
