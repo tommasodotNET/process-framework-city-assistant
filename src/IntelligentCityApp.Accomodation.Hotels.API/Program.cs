@@ -9,11 +9,7 @@ builder.Services.AddOpenApi();
 builder.AddSqlServerDbContext<AccomodationContext>("HotelDb");
 
 var app = builder.Build();
-var db = app.Services.CreateScope().ServiceProvider.GetService<AccomodationContext>()!;
-//await db.Database.EnsureDeletedAsync();
-//await db.Database.EnsureCreatedAsync();
-db.Accomodations.AddRange(ReservationGenerator.GenerateAccomodations());
-await db.SaveChangesAsync();
+//await StartupDatabase(app);
 
 app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
@@ -32,7 +28,17 @@ app.MapGet("/accomodations", async (AccomodationContext db, [FromQuery] DateTime
             .Include(a => a.Rooms)
             .ToListAsync();
     var result = rooms.Where(t => t.Rooms.Any(t => t.IsAvailable(searchDate)));
-    return Results.Ok(result.Select(t => new { t.Name, t.Address, RoomsCount = t.Rooms.Count }));
+    var response = result.Select(t => new { t.Name, t.Address, RoomsCount = t.Rooms.Count }).ToList();
+    return Results.Ok(response);
 })
 .WithName("GetAccomodations");
 app.Run();
+
+static async Task StartupDatabase(WebApplication app)
+{
+    var db = app.Services.CreateScope().ServiceProvider.GetService<AccomodationContext>()!;
+    await db.Database.EnsureDeletedAsync();
+    await db.Database.EnsureCreatedAsync();
+    db.Accomodations.AddRange(ReservationGenerator.GenerateAccomodations());
+    await db.SaveChangesAsync();
+}

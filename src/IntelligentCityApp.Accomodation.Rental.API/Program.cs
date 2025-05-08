@@ -8,11 +8,7 @@ builder.Services.AddOpenApi();
 builder.AddSqlServerDbContext<RentalContext>("RentalDB");
 
 var app = builder.Build();
-var db = app.Services.CreateScope().ServiceProvider.GetService<RentalContext>()!;
-//await db.Database.EnsureDeletedAsync();
-//await db.Database.EnsureCreatedAsync();
-db.Rentals.AddRange(ReservationGenerator.GenerateRentals());
-await db.SaveChangesAsync();
+//await StartupDatabase(app);
 
 if (app.Environment.IsDevelopment())
 {
@@ -31,3 +27,12 @@ app.MapGet("/rental", async (RentalContext db) =>
 })
 .WithName("GetRentals");
 app.Run();
+
+static async Task StartupDatabase(WebApplication app)
+{
+    var db = app.Services.CreateScope().ServiceProvider.GetService<RentalContext>()!;
+    await db.Database.EnsureDeletedAsync();
+    await db.Database.EnsureCreatedAsync();
+    db.Rentals.AddRange(ReservationGenerator.GenerateRentals());
+    await db.SaveChangesAsync();
+}

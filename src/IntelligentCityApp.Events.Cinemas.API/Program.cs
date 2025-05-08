@@ -8,11 +8,8 @@ builder.Services.AddOpenApi();
 builder.AddSqlServerDbContext<CinemaContext>("CinemaDb");
 
 var app = builder.Build();
-var db = app.Services.CreateScope().ServiceProvider.GetService<CinemaContext>()!;
-//await db.Database.EnsureDeletedAsync();
-//await db.Database.EnsureCreatedAsync();
-db.Cinemas.AddRange(ReservationGenerator.GenerateCinemasFromThePast());
-await db.SaveChangesAsync();
+
+//await StartupDatabase(app);
 
 app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
@@ -32,3 +29,12 @@ app.MapGet("/cinemas", async (CinemaContext db) =>
 })
 .WithName("GetCinemas");
 app.Run();
+
+static async Task StartupDatabase(WebApplication app)
+{
+    var db = app.Services.CreateScope().ServiceProvider.GetService<CinemaContext>()!;
+    await db.Database.EnsureDeletedAsync();
+    await db.Database.EnsureCreatedAsync();
+    db.Cinemas.AddRange(ReservationGenerator.GenerateCinemasFromThePast());
+    await db.SaveChangesAsync();
+}
