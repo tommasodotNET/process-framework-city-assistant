@@ -1,5 +1,3 @@
-using System;
-
 namespace IntelligentCityApp.Accomodation.Agent;
 
 public class RentalAPIHttpClient(HttpClient httpClient)
@@ -8,8 +6,6 @@ public class RentalAPIHttpClient(HttpClient httpClient)
 
     public async Task<string> GetRentalsAsync()
     {
-        var response = await _httpClient.GetAsync("/rental");
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
+        return await _httpClient.GetFromJsonAsync<string>("/rental");
     }
 }

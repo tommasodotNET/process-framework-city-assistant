@@ -1,5 +1,3 @@
-using System;
-
 namespace IntelligentCityApp.Accomodation.Agent;
 
 public class ParkingAPIHttpClient(HttpClient httpClient)
@@ -8,8 +6,6 @@ public class ParkingAPIHttpClient(HttpClient httpClient)
 
     public async Task<string> GetParkingAsync()
     {
-        var response = await _httpClient.GetAsync("/parkings");
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
+        return await _httpClient.GetFromJsonAsync<string>("/parkings");
     }
 }

@@ -28,7 +28,12 @@ public static class Extensions
         builder.Services.ConfigureHttpClientDefaults(http =>
         {
             // Turn on resilience by default
-            http.AddStandardResilienceHandler();
+            http.AddStandardResilienceHandler(c =>
+            {
+                c.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(60);
+                c.AttemptTimeout.Timeout = TimeSpan.FromSeconds(30);
+                c.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(60);
+            });
 
             // Turn on service discovery by default
             http.AddServiceDiscovery();
@@ -45,7 +50,7 @@ public static class Extensions
 
     public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
-        if(builder.Configuration["ConnectionStrings:azureOpenAI"] is not null)
+        if (builder.Configuration["ConnectionStrings:azureOpenAI"] is not null)
             builder.Logging.AddTraceSource("Microsoft.SemanticKernel");
 
         builder.Logging.AddOpenTelemetry(logging =>
@@ -61,7 +66,7 @@ public static class Extensions
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation();
 
-                if(builder.Configuration["ConnectionStrings:azureOpenAI"] is not null)
+                if (builder.Configuration["ConnectionStrings:azureOpenAI"] is not null)
                     metrics.AddMeter("Microsoft.SemanticKernel*");
             })
             .WithTracing(tracing =>
@@ -77,7 +82,7 @@ public static class Extensions
                     //.AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation();
 
-                if(builder.Configuration["ConnectionStrings:azureOpenAI"] is not null)
+                if (builder.Configuration["ConnectionStrings:azureOpenAI"] is not null)
                     tracing.AddSource("Microsoft.SemanticKernel*");
             });
 

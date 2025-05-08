@@ -27,7 +27,8 @@ app.MapGet("/accomodations", async (AccomodationContext db, [FromQuery] DateTime
             .Include(a => a.Rooms)
             .ToListAsync();
     var result = rooms.Where(t => t.Rooms.Any(t => t.IsAvailable(searchDate)));
-    return Results.Ok(result);
+    var response = result.Select(t => new { t.Name, t.Address, RoomsCount = t.Rooms.Count }).ToList();
+    return Results.Ok(response);
 })
 .WithName("GetAccomodations");
 
