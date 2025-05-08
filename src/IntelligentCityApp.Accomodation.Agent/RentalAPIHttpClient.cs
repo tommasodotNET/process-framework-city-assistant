@@ -6,6 +6,8 @@ public class RentalAPIHttpClient(HttpClient httpClient)
 
     public async Task<string> GetRentalsAsync()
     {
-        return await _httpClient.GetFromJsonAsync<string>("/rental");
+        var response = await _httpClient.GetAsync("/rental");
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
 }

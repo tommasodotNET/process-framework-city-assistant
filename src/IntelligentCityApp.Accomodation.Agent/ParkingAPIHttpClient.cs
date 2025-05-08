@@ -6,6 +6,8 @@ public class ParkingAPIHttpClient(HttpClient httpClient)
 
     public async Task<string> GetParkingAsync()
     {
-        return await _httpClient.GetFromJsonAsync<string>("/parkings");
+        var response = await _httpClient.GetAsync("/parkings");
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadAsStringAsync();
     }
 }
