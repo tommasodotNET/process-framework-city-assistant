@@ -1,6 +1,5 @@
-using System;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.SemanticKernel;
+using System.Text.Json;
 
 namespace IntelligentCityApp.ProcessOrchestration;
 
@@ -16,8 +15,9 @@ public class ProcessFrameworkHub : Hub
         await base.OnDisconnectedAsync(exception);
     }
 
-    public async Task HandleEventAsync(KernelProcessProxyMessage eventData)
+    public async Task HandleEventAsync(string eventData)
     {
-        await Clients.All.SendAsync("ReceivePFEvents", eventData.EventData.Content);
+        var message = JsonSerializer.Deserialize<Message>(eventData);
+        await Clients.All.SendAsync("ReceivePFEvents", message.Text);
     }
 }

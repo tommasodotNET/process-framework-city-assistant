@@ -67,7 +67,7 @@ app.MapPost("/agents/accomodation", async (ChatCompletionAgent agent, ChatHistor
 
     await foreach (var response in agent.InvokeAsync(history, agentThread))
     {
-        return response.Message.Content;
+        return Results.Ok(new Message(response.Message.Content!));
     }
 
     return null;
@@ -75,3 +75,5 @@ app.MapPost("/agents/accomodation", async (ChatCompletionAgent agent, ChatHistor
 .WithName("GetAccomodation");
 
 app.Run();
+
+record Message(string Text);

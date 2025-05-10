@@ -60,7 +60,7 @@ app.MapPost("/agents/events", async (ChatCompletionAgent agent, ChatHistory hist
 
     await foreach (var response in agent.InvokeAsync(history, agentThread))
     {
-        return response.Message.Content;
+        return Results.Ok(new Message(response.Message.Content!));
     }
 
     return null;
@@ -68,3 +68,5 @@ app.MapPost("/agents/events", async (ChatCompletionAgent agent, ChatHistory hist
 .WithName("GetEvents");
 
 app.Run();
+
+record Message(string Text);

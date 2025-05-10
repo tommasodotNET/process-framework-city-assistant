@@ -1,4 +1,3 @@
-using System;
 using IntelligentCityApp.ProcessOrchestration.AgentsConnectors;
 using IntelligentCityApp.ProcessOrchestration.Events;
 using Microsoft.SemanticKernel;
@@ -18,7 +17,7 @@ public class EventStep : KernelProcessStep
     {
         var eventAgentHttpClient = kernel.GetRequiredService<EventAgentHttpClient>();
         var eventAgentResponse = await eventAgentHttpClient.RetrieveEventAsync(chatHistory);
-        Console.WriteLine($"event retrieved: {eventAgentResponse}");
-        await context.EmitEventAsync(new () { Id = IntelligentCityEvents.InformationRetrieved, Data = eventAgentResponse });
+        Console.WriteLine($"event retrieved: {eventAgentResponse.Text}");
+        await context.EmitEventAsync(new() { Id = IntelligentCityEvents.InformationRetrieved, Data = eventAgentResponse });
     }
 }

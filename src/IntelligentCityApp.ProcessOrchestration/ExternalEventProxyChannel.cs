@@ -14,7 +14,7 @@ public class ExternalEventProxyChannel : IExternalKernelProcessMessageChannel
             throw new InvalidOperationException("Hub connection is not initialized.");
         }
 
-        return this._hubConnection.InvokeAsync("HandleEventAsync", eventData);
+        return this._hubConnection.InvokeAsync("HandleEventAsync", eventData.EventData.Content);
     }
 
     public async ValueTask Initialize()
@@ -23,7 +23,7 @@ public class ExternalEventProxyChannel : IExternalKernelProcessMessageChannel
             .WithUrl(new Uri("https://localhost:7112/pfevents"))
             .Build();
 
-        await this._hubConnection.StartAsync().ConfigureAwait(false);
+        await this._hubConnection.StartAsync();
     }
 
     public async ValueTask Uninitialize()
@@ -33,6 +33,8 @@ public class ExternalEventProxyChannel : IExternalKernelProcessMessageChannel
             throw new InvalidOperationException("Hub connection is not initialized.");
         }
 
-        await this._hubConnection.StopAsync().ConfigureAwait(false);
+        await this._hubConnection.StopAsync();
     }
 }
+
+public record Message(string Text);

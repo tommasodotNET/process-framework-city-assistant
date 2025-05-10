@@ -1,4 +1,3 @@
-using System;
 using IntelligentCityApp.ProcessOrchestration.AgentsConnectors;
 using IntelligentCityApp.ProcessOrchestration.Events;
 using Microsoft.SemanticKernel;
@@ -18,7 +17,7 @@ public class AccomodationStep : KernelProcessStep
     {
         var accomodationAgentHttpClient = kernel.GetRequiredService<AccomodationAgentHttpClient>();
         var accomodationAgentResponse = await accomodationAgentHttpClient.RetrieveAccomodationAsync(chatHistory);
-        Console.WriteLine($"Accomodation retrieved: {accomodationAgentResponse}");
-        await context.EmitEventAsync(new () { Id = IntelligentCityEvents.InformationRetrieved, Data = accomodationAgentResponse });
+        Console.WriteLine($"Accomodation retrieved: {accomodationAgentResponse.Text}");
+        await context.EmitEventAsync(new() { Id = IntelligentCityEvents.InformationRetrieved, Data = accomodationAgentResponse });
     }
 }

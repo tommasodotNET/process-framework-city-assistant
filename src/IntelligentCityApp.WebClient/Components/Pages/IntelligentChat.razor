@@ -25,21 +25,10 @@
             <hr />
             <div class="card mt-3">
                 <div class="card-header bg-secondary text-white">
-                    <h6>Messages</h6>
+                    <h6>Message</h6>
                 </div>
                 <div class="card-body">
-                    <Markdown>
-                        @foreach (var message in messages)
-                        {
-                            @message
-                        }
-                    </Markdown>
-                    @*  <ul class="list-group" id="messagesList">
-                        @foreach (var message in messages)
-                        {
-                            <li class="list-group-item">@message</li>
-                        }
-                    </ul> *@
+                    <Markdown>@message</Markdown>                    
                 </div>
             </div>
         </div>
@@ -51,9 +40,8 @@
     private HttpClient ProcessClient { get; set; }
 
     private HubConnection? hubConnection;
-    private List<string> messages = new();
+    private string? message;
     private string? userInput;
-    private string? messageInput;
 
     protected override async Task OnInitializedAsync()
     {        
@@ -65,9 +53,7 @@
 
         hubConnection.On<string>("ReceivePFEvents", async (message) =>
         {
-            message.Replace("\\n", "<br>");
-            messages.Add(message);
-
+            this.message = message;
             await InvokeAsync(StateHasChanged);
         });
 
